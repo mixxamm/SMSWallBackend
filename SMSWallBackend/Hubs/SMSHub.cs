@@ -10,7 +10,7 @@ namespace SMSWallBackend.Hubs
     {
         public async Task SendSMS(string sms)
         {
-            await Clients.Others.SendAsync("ReceiveSMS", sms);
+            await Clients.Others.SendAsync("ReceiveSMS", new SMS() { Date = DateTime.Now, Message = sms});
         }
     }
 }
