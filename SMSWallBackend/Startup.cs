@@ -27,9 +27,9 @@ namespace SMSWallBackend
                 options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
                 {
                     builder.WithOrigins("http://localhost:3000")
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials();
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
                 });
             });
         }
@@ -42,7 +42,7 @@ namespace SMSWallBackend
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
