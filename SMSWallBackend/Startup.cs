@@ -26,7 +26,7 @@ namespace SMSWallBackend
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
+                    builder.WithOrigins("http://localhost:3000", "https://mixxamm.ml")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
