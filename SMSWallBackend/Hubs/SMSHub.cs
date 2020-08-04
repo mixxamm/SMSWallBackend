@@ -8,9 +8,14 @@ namespace SMSWallBackend.Hubs
 {
     public class SMSHub : Hub
     {
-        public async Task SendSMS(string sms)
+        public async Task SendSMS(string sms, string groupName)
         {
-            await Clients.Others.SendAsync("ReceiveSMS", new SMS() { Date = DateTime.Now, Message = sms});
+            await Clients.Group(groupName).SendAsync("ReceiveSMS", new SMS() { Date = DateTime.Now, Message = sms});
+        }
+
+        public async Task AddToGroup(string groupName)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         }
     }
 }
