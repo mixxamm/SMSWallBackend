@@ -18,13 +18,13 @@ namespace SMSWallBackend.Hubs
         public async Task InitializeSession(string config)
         {
             string configId = RandomString(32);
-            File.WriteAllText($"configs/{configId}", config);
+            File.WriteAllText(configId, config);
             await Clients.Caller.SendAsync("GetConfigId", $"{configId}");
 
         }
         public async Task GetConfig(string configId)
         {
-            await Clients.Caller.SendAsync("GetConfig", File.ReadAllText($"configs/${configId}"));
+            await Clients.Caller.SendAsync("GetConfig", File.ReadAllText(configId));
         }
     }
 }
