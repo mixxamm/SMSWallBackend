@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace SMSWallBackend.Hubs
 {
     public class ConfigHub : Hub
     {
-        private Dictionary<string, string> configs = new Dictionary<string, string>();
         private static Random random = new Random();
         public static string RandomString(int length)
         {
@@ -18,16 +17,14 @@ namespace SMSWallBackend.Hubs
         }
         public async Task InitializeSession(string config)
         {
-            string configId = RandomString(8);
-            configs.Add(configId, config);
-            configs.TryGetValue(configId, out string configString);
-            await Clients.Caller.SendAsync("GetConfigId", $"{configId} & {configString}");
-            await Task.Delay(60000);
+            string configId = RandomString(32);
+            File.WriteAllText($"configs/{configId}", config);
+            await Clients.Caller.SendAsync("GetConfigId", $"{configId}");
+
         }
         public async Task GetConfig(string configId)
         {
-            configs.TryGetValue(configId, out string config);
-            await Clients.Caller.SendAsync("GetConfig", config);
+            await Clients.Caller.SendAsync("GetConfig", File.ReadAllText($"configs/${configId}"));
         }
     }
 }
