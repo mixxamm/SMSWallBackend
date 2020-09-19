@@ -54,6 +54,7 @@ namespace SMSWallBackend
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<SMSHub>("/smshub");
+                endpoints.MapHub<ConfigHub>("/confighub");
             });
         }
     }
