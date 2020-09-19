@@ -20,11 +20,23 @@ namespace SMSWallBackend.Hubs
             string configId = RandomString(32);
             File.WriteAllText(configId, config);
             await Clients.Caller.SendAsync("GetConfigId", $"{configId}");
-
+            _ = CleanUp(configId);
         }
         public async Task GetConfig(string configId)
         {
             await Clients.Caller.SendAsync("GetConfig", File.ReadAllText(configId));
+        }
+
+        public async Task CleanUp(string configId)
+        {
+            await Task.Delay(60000);
+            try
+            {
+                File.Delete(configId);
+            }catch (Exception)
+            {
+
+            }
         }
     }
 }
