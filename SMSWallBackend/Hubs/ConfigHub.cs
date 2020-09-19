@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace SMSWallBackend.Hubs
 {
@@ -18,7 +19,13 @@ namespace SMSWallBackend.Hubs
         public async Task InitializeSession(string config)
         {
             string configId = RandomString(32);
-            File.WriteAllText(configId, config);
+            try
+            {
+                File.WriteAllText(configId, config);
+            }catch(Exception e)
+            {
+                File.WriteAllText("log", e.Message);
+            }
             await Clients.Caller.SendAsync("GetConfigId", $"{configId}");
             _ = CleanUp(configId);
         }
