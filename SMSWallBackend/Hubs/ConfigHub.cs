@@ -20,7 +20,8 @@ namespace SMSWallBackend.Hubs
         {
             string configId = RandomString(8);
             configs.Add(configId, config);
-            await Clients.Caller.SendAsync("GetConfigId", configId);
+            configs.TryGetValue(configId, out string configString);
+            await Clients.Caller.SendAsync("GetConfigId", $"{configId} & {configString}");
             await Task.Delay(60000);
         }
         public async Task GetConfig(string configId)
